@@ -9,7 +9,7 @@
 // Nokia Corporation - initial contribution.
 //
 // Contributors:
-// The NeoSymbian Authors (2026): no start-up awareness (NeoSymbian has no system state manager).
+// The NeoSymbian Authors (2026): no start-up awareness (no system state manager): start in the after-boot state.
 // Description:
 //
 
@@ -208,8 +208,9 @@ void CVwsServer::ConstructL()
 #endif
 	LOG3(CVwsLog::EQuiet,_L("CVwsServer::IsPriorityBoostBeforePanicEnabled(): iEnableBoostAppPriorityBeforePanic = [%d] "),iEnableBoostAppPriorityBeforePanic);
 		
-	// NeoSymbian: no system state manager (ssmcmn) to report the end of start-up, so the server stays in start-up
-	// mode: a client slow to switch views is boosted, not panicked (old apps run as guests, on slower paths).
+	// NeoSymbian: no system state manager (ssmcmn) to report the end of start-up: the view server starts in the
+	// after-boot state, as when that report fails (a client that never answers a view switch is panicked)
+	HandleInitializationFinished();
  	}
 
 CVwsStartupAware::CVwsStartupAware(CVwsServer& aServer)
