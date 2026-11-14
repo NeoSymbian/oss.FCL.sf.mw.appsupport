@@ -4,12 +4,12 @@
 // under the terms of "Eclipse Public License v1.0"
 // which accompanies this distribution, and is available
 // at the URL "http://www.eclipse.org/legal/epl-v10.html".
-//
+// SPDX-License-Identifier: EPL-2.0 (changed by the NeoSymbian Authors)
 // Initial Contributors:
 // Nokia Corporation - initial contribution.
 //
 // Contributors:
-//
+// The NeoSymbian Authors (2026): no start-up awareness (NeoSymbian has no system state manager).
 // Description:
 //
 
@@ -208,16 +208,8 @@ void CVwsServer::ConstructL()
 #endif
 	LOG3(CVwsLog::EQuiet,_L("CVwsServer::IsPriorityBoostBeforePanicEnabled(): iEnableBoostAppPriorityBeforePanic = [%d] "),iEnableBoostAppPriorityBeforePanic);
 		
-	if (iEnableBoostAppPriorityBeforePanic)
-		{
-		CVwsStartupAware* startupAware = new(ELeave)CVwsStartupAware(*this);
-		TInt err = startupAware->Start();
-		if (err != KErrNone)
-			{
-			HandleInitializationFinished();
-			delete startupAware;
-			}
-		}
+	// NeoSymbian: no system state manager (ssmcmn) to report the end of start-up, so the server stays in start-up
+	// mode: a client slow to switch views is boosted, not panicked (old apps run as guests, on slower paths).
  	}
 
 CVwsStartupAware::CVwsStartupAware(CVwsServer& aServer)
