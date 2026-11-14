@@ -4,12 +4,12 @@
 // under the terms of "Eclipse Public License v1.0"
 // which accompanies this distribution, and is available
 // at the URL "http://www.eclipse.org/legal/epl-v10.html".
-//
+// SPDX-License-Identifier: EPL-2.0 (changed by the NeoSymbian Authors)
 // Initial Contributors:
 // Nokia Corporation - initial contribution.
 //
 // Contributors:
-//
+// The NeoSymbian Authors (2026): DoStart consumes the cancelled subscription (no stray signal).
 // Description:
 // apinstallationmonitor.cpp
 //
@@ -98,6 +98,7 @@ void CApaAppInstallationMonitor::DoStart()
 	else
 		{
 		iSwisProperty.Cancel();
+		User::WaitForRequest(iStatus);	// the cancel completes iStatus, and no active object owns that signal
 		}
 	}
 
